@@ -1,25 +1,28 @@
 {
   "projects": [
     {
-      "id": "danang-branding",
-      "title": "Đà Nẵng City Emblem & Brand Identity",
-      "subtitle": "Hệ thống nhận diện thương hiệu và biểu trưng đô thị tối giản",
-      "category": "Design & Brand Identity",
-      "year": "2026",
-      "client": "Nghiên cứu Nhận diện Đô thị Đà Nẵng",
-      "role": "Brand Identity Designer",
-      "tools": [
-        "Adobe Illustrator",
-        "Geometric Grid",
-        "Flat Vector"
-      ],
-      "summary": "Tái cấu trúc hình tượng đô thị thông qua ngôn ngữ hình học tối giản cùng hệ thống lưới tỷ lệ chuẩn xác.",
+      "behanceEmbedId": "",
       "challenge": "Dung hòa tính trang trọng của biểu trưng với thẩm mỹ tinh gọn, hiện đại.",
-      "solution": "Sử dụng các đường nét kỷ luật, cấu trúc vòng tròn đồng tâm và mảng phẳng có độ tương phản cao.",
+      "summary": "Tái cấu trúc hình tượng đô thị thông qua ngôn ngữ hình học tối giản cùng hệ thống lưới tỷ lệ chuẩn xác.",
+      "client": "Nghiên cứu Nhận diện Đô thị Đà Nẵng",
+      "behanceLink": "https://www.behance.net/callmeiskay",
       "deliverables": [
         "Vector Emblem Concepts",
         "Grid Construction Manual",
         "Brand Applications"
+      ],
+      "imageUrl": "/images/uploads/kay-1.jpg",
+      "role": "Brand Identity Designer",
+      "subtitle": "Photography Homestay",
+      "igLink": "",
+      "title": "H&M HOMSTAY",
+      "solution": "Sử dụng các đường nét kỷ luật, cấu trúc vòng tròn đồng tâm và mảng phẳng có độ tương phản cao.",
+      "visualType": "danang",
+      "id": "danang-branding",
+      "tools": [
+        "Adobe Illustrator",
+        "Geometric Grid",
+        "Flat Vector"
       ],
       "palette": [
         "#111111",
@@ -28,32 +31,32 @@
         "#F4A261",
         "#F7F7F5"
       ],
-      "visualType": "danang",
-      "imageUrl": "",
-      "igLink": "",
-      "behanceLink": "https://www.behance.net/callmeiskay",
-      "behanceEmbedId": ""
+      "year": "2026",
+      "category": "Architectural"
     },
     {
-      "id": "portrait-series",
-      "title": "Portraiture & Human Light",
-      "subtitle": "Series nhiếp ảnh chân dung tĩnh lặng & cảm xúc nguyên bản",
-      "category": "Portrait",
-      "year": "2026",
-      "client": "Homnao.Foto Portrait Project",
-      "role": "Photographer & Visual Director",
-      "tools": [
-        "Natural Light",
-        "Lightroom Classic",
-        "Analog Aesthetic"
-      ],
-      "summary": "Khám phá chiều sâu nội tâm nhân vật qua ánh sáng tự nhiên và khoảng trắng tĩnh lặng.",
+      "behanceEmbedId": "",
       "challenge": "Bắt trọn khoảnh khắc chân thực và cảm xúc tự nhiên nhất của nhân vật trước ống kính.",
-      "solution": "Sử dụng ánh sáng mềm, bố cục tối giản và tôn trọng tối đa chất liệu hình ảnh nguyên bản.",
+      "summary": "Khám phá chiều sâu nội tâm nhân vật qua ánh sáng tự nhiên và khoảng trắng tĩnh lặng.",
+      "client": "Homnao.Foto Portrait Project",
+      "behanceLink": "https://www.behance.net/callmeiskay",
       "deliverables": [
         "Portrait Series",
         "Curated Photo Book",
         "Color Grading Preset"
+      ],
+      "imageUrl": "",
+      "role": "Photographer & Visual Director",
+      "subtitle": "Series nhiếp ảnh chân dung tĩnh lặng & cảm xúc nguyên bản",
+      "igLink": "https://instagram.com/callmeiskay",
+      "title": "Portraiture & Human Light",
+      "solution": "Sử dụng ánh sáng mềm, bố cục tối giản và tôn trọng tối đa chất liệu hình ảnh nguyên bản.",
+      "visualType": "editorial",
+      "id": "portrait-series",
+      "tools": [
+        "Natural Light",
+        "Lightroom Classic",
+        "Analog Aesthetic"
       ],
       "palette": [
         "#231F20",
@@ -62,32 +65,32 @@
         "#EAE0D5",
         "#FAF9F6"
       ],
-      "visualType": "editorial",
-      "imageUrl": "",
-      "igLink": "https://instagram.com/callmeiskay",
-      "behanceLink": "https://www.behance.net/callmeiskay",
-      "behanceEmbedId": ""
+      "year": "2026",
+      "category": "Portrait"
     },
     {
-      "id": "yearbook-project",
-      "title": "Yearbook — Ký ức Thời Thanh Xuân",
-      "subtitle": "Ấn phẩm kỷ yếu học sinh sinh viên với phong cách editorial tinh tế",
-      "category": "Yearbook",
-      "year": "2026",
-      "client": "Homnao.Foto Yearbook Series",
-      "role": "Art Director & Photographer",
-      "tools": [
-        "Editorial Layout",
-        "Portrait Series",
-        "Print Production"
-      ],
-      "summary": "Ghi lại những thước phim tuổi trẻ qua góc nhìn nhiếp ảnh dàn trang tạp chí cao cấp.",
+      "behanceEmbedId": "",
       "challenge": "Tránh lối mòn của các mẫu kỷ yếu thông thường để tạo ra một ấn phẩm mang giá trị lưu giữ vượt thời gian.",
-      "solution": "Kết hợp giữa nhiếp ảnh chân dung tự nhiên và kỹ thuật dàn trang tối giản, sang trọng.",
+      "summary": "Ghi lại những thước phim tuổi trẻ qua góc nhìn nhiếp ảnh dàn trang tạp chí cao cấp.",
+      "client": "Homnao.Foto Yearbook Series",
+      "behanceLink": "https://www.behance.net/callmeiskay",
       "deliverables": [
         "Yearbook Publication",
         "Photo Archive",
         "Visual Direction"
+      ],
+      "imageUrl": "",
+      "role": "Art Director & Photographer",
+      "subtitle": "Ấn phẩm kỷ yếu học sinh sinh viên với phong cách editorial tinh tế",
+      "igLink": "",
+      "title": "Yearbook — Ký ức Thời Thanh Xuân",
+      "solution": "Kết hợp giữa nhiếp ảnh chân dung tự nhiên và kỹ thuật dàn trang tối giản, sang trọng.",
+      "visualType": "ananas",
+      "id": "yearbook-project",
+      "tools": [
+        "Editorial Layout",
+        "Portrait Series",
+        "Print Production"
       ],
       "palette": [
         "#141413",
@@ -96,32 +99,32 @@
         "#ECEAE4",
         "#FFFFFF"
       ],
-      "visualType": "ananas",
-      "imageUrl": "",
-      "igLink": "",
-      "behanceLink": "https://www.behance.net/callmeiskay",
-      "behanceEmbedId": ""
+      "year": "2026",
+      "category": "Yearbook"
     },
     {
-      "id": "event-storytelling",
-      "title": "Event Visual Storytelling",
-      "subtitle": "Ghi lại nhịp điệu và không gian sự kiện qua ống kính nhiếp ảnh",
-      "category": "Event",
-      "year": "2026",
-      "client": "Homnao.Foto Event Coverage",
-      "role": "Lead Event Photographer",
-      "tools": [
-        "Available Light",
-        "Dynamic Framing",
-        "Post-Production"
-      ],
-      "summary": "Tài liệu hóa các sự kiện văn hóa, nghệ thuật và thương hiệu với góc nhìn điện ảnh.",
+      "behanceEmbedId": "",
       "challenge": "Làm nổi bật bầu không gian và cảm xúc của sự kiện giữa ánh sáng phức tạp.",
-      "solution": "Nắm bắt khoảnh khắc chớp nhoáng với bố cục chặt chẽ và tông màu nhất quán.",
+      "summary": "Tài liệu hóa các sự kiện văn hóa, nghệ thuật và thương hiệu với góc nhìn điện ảnh.",
+      "client": "Homnao.Foto Event Coverage",
+      "behanceLink": "https://www.behance.net/callmeiskay",
       "deliverables": [
         "Event Photo Gallery",
         "Highlight Reel",
         "Digital Deliverables"
+      ],
+      "imageUrl": "",
+      "role": "Lead Event Photographer",
+      "subtitle": "Ghi lại nhịp điệu và không gian sự kiện qua ống kính nhiếp ảnh",
+      "igLink": "https://instagram.com/callmeiskay",
+      "title": "Event Visual Storytelling",
+      "solution": "Nắm bắt khoảnh khắc chớp nhoáng với bố cục chặt chẽ và tông màu nhất quán.",
+      "visualType": "cinema",
+      "id": "event-storytelling",
+      "tools": [
+        "Available Light",
+        "Dynamic Framing",
+        "Post-Production"
       ],
       "palette": [
         "#0F1419",
@@ -130,11 +133,8 @@
         "#D49B72",
         "#F2EFE9"
       ],
-      "visualType": "cinema",
-      "imageUrl": "",
-      "igLink": "https://instagram.com/callmeiskay",
-      "behanceLink": "https://www.behance.net/callmeiskay",
-      "behanceEmbedId": ""
+      "year": "2026",
+      "category": "Event"
     }
   ]
 }
