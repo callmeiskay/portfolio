@@ -94,35 +94,23 @@
     },
     {
       "behanceEmbedId": "",
-      "challenge": "Làm nổi bật bầu không gian và cảm xúc của sự kiện giữa ánh sáng phức tạp.",
-      "summary": "Tài liệu hóa các sự kiện văn hóa, nghệ thuật và thương hiệu với góc nhìn điện ảnh.",
-      "client": "Homnao.Foto Event Coverage",
-      "behanceLink": "https://www.behance.net/callmeiskay",
-      "deliverables": [
-        "Event Photo Gallery",
-        "Highlight Reel",
-        "Digital Deliverables"
-      ],
-      "imageUrl": "",
-      "role": "Lead Event Photographer",
-      "subtitle": "Ghi lại nhịp điệu và không gian sự kiện qua ống kính nhiếp ảnh",
+      "challenge": "",
+      "summary": "",
+      "client": "COASTAL COMMS PRODUCTION",
+      "behanceLink": "https://www.behance.net/gallery/249397939/BackStage-in-The-Next-Live-Concert-for-Mason-Nguyen",
+      "deliverables": [],
+      "imageUrl": "https://www.behance.net/gallery/249397939/BackStage-in-The-Next-Live-Concert-for-Mason-Nguyen",
+      "role": "BACKSTAGE PHOTOGRAPHER",
+      "subtitle": "BackStage in The Next Live Concert for Mason Nguyen",
       "igLink": "https://instagram.com/callmeiskay",
-      "title": "Event Visual Storytelling",
-      "solution": "Nắm bắt khoảnh khắc chớp nhoáng với bố cục chặt chẽ và tông màu nhất quán.",
-      "visualType": "cinema",
+      "title": "BackStage in The Next Live Concert for Mason Nguyen",
+      "solution": "",
+      "visualType": "editorial",
       "id": "event-storytelling",
       "tools": [
-        "Available Light",
-        "Dynamic Framing",
         "Post-Production"
       ],
-      "palette": [
-        "#0F1419",
-        "#2B3A4A",
-        "#6C809A",
-        "#D49B72",
-        "#F2EFE9"
-      ],
+      "palette": [],
       "year": "2026",
       "category": "Event"
     }
