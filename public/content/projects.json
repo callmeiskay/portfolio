@@ -64,31 +64,17 @@
       "summary": "Ghi lại những thước phim tuổi trẻ qua góc nhìn nhiếp ảnh dàn trang tạp chí cao cấp.",
       "client": "Homnao.Foto Yearbook Series",
       "behanceLink": "https://www.behance.net/callmeiskay",
-      "deliverables": [
-        "Yearbook Publication",
-        "Photo Archive",
-        "Visual Direction"
-      ],
-      "imageUrl": "",
+      "deliverables": [],
+      "imageUrl": "/images/uploads/kay-0082.jpg",
       "role": "Art Director & Photographer",
-      "subtitle": "Ấn phẩm kỷ yếu học sinh sinh viên với phong cách editorial tinh tế",
+      "subtitle": "Yearbook — FPT DANANG",
       "igLink": "",
-      "title": "Yearbook — Ký ức Thời Thanh Xuân",
+      "title": "Yearbook — FPT",
       "solution": "Kết hợp giữa nhiếp ảnh chân dung tự nhiên và kỹ thuật dàn trang tối giản, sang trọng.",
-      "visualType": "ananas",
+      "visualType": "editorial",
       "id": "yearbook-project",
-      "tools": [
-        "Editorial Layout",
-        "Portrait Series",
-        "Print Production"
-      ],
-      "palette": [
-        "#141413",
-        "#D95326",
-        "#D8CFC4",
-        "#ECEAE4",
-        "#FFFFFF"
-      ],
+      "tools": [],
+      "palette": [],
       "year": "2026",
       "category": "Yearbook"
     },
