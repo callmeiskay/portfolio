@@ -30,31 +30,17 @@
       "summary": "Khám phá chiều sâu nội tâm nhân vật qua ánh sáng tự nhiên và khoảng trắng tĩnh lặng.",
       "client": "Homnao.Foto Portrait Project",
       "behanceLink": "https://www.behance.net/callmeiskay",
-      "deliverables": [
-        "Portrait Series",
-        "Curated Photo Book",
-        "Color Grading Preset"
-      ],
-      "imageUrl": "",
+      "deliverables": [],
+      "imageUrl": "/images/uploads/huy0127.jpg",
       "role": "Photographer & Visual Director",
       "subtitle": "Series nhiếp ảnh chân dung tĩnh lặng & cảm xúc nguyên bản",
       "igLink": "https://instagram.com/callmeiskay",
-      "title": "Portraiture & Human Light",
+      "title": "EM TOI DOI MUOI CONCEPT",
       "solution": "Sử dụng ánh sáng mềm, bố cục tối giản và tôn trọng tối đa chất liệu hình ảnh nguyên bản.",
       "visualType": "editorial",
       "id": "portrait-series",
-      "tools": [
-        "Natural Light",
-        "Lightroom Classic",
-        "Analog Aesthetic"
-      ],
-      "palette": [
-        "#231F20",
-        "#5E503F",
-        "#C6AC8F",
-        "#EAE0D5",
-        "#FAF9F6"
-      ],
+      "tools": [],
+      "palette": [],
       "year": "2026",
       "category": "Portrait"
     },
