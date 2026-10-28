@@ -1,0 +1,140 @@
+{
+  "projects": [
+    {
+      "id": "danang-branding",
+      "title": "Đà Nẵng City Emblem & Brand Identity",
+      "subtitle": "Hệ thống nhận diện thương hiệu và biểu trưng đô thị tối giản",
+      "category": "Design & Brand Identity",
+      "year": "2026",
+      "client": "Nghiên cứu Nhận diện Đô thị Đà Nẵng",
+      "role": "Brand Identity Designer",
+      "tools": [
+        "Adobe Illustrator",
+        "Geometric Grid",
+        "Flat Vector"
+      ],
+      "summary": "Tái cấu trúc hình tượng đô thị thông qua ngôn ngữ hình học tối giản cùng hệ thống lưới tỷ lệ chuẩn xác.",
+      "challenge": "Dung hòa tính trang trọng của biểu trưng với thẩm mỹ tinh gọn, hiện đại.",
+      "solution": "Sử dụng các đường nét kỷ luật, cấu trúc vòng tròn đồng tâm và mảng phẳng có độ tương phản cao.",
+      "deliverables": [
+        "Vector Emblem Concepts",
+        "Grid Construction Manual",
+        "Brand Applications"
+      ],
+      "palette": [
+        "#111111",
+        "#1D3557",
+        "#E63946",
+        "#F4A261",
+        "#F7F7F5"
+      ],
+      "visualType": "danang",
+      "imageUrl": "",
+      "igLink": "",
+      "behanceLink": "https://www.behance.net/callmeiskay",
+      "behanceEmbedId": ""
+    },
+    {
+      "id": "portrait-series",
+      "title": "Portraiture & Human Light",
+      "subtitle": "Series nhiếp ảnh chân dung tĩnh lặng & cảm xúc nguyên bản",
+      "category": "Portrait",
+      "year": "2026",
+      "client": "Homnao.Foto Portrait Project",
+      "role": "Photographer & Visual Director",
+      "tools": [
+        "Natural Light",
+        "Lightroom Classic",
+        "Analog Aesthetic"
+      ],
+      "summary": "Khám phá chiều sâu nội tâm nhân vật qua ánh sáng tự nhiên và khoảng trắng tĩnh lặng.",
+      "challenge": "Bắt trọn khoảnh khắc chân thực và cảm xúc tự nhiên nhất của nhân vật trước ống kính.",
+      "solution": "Sử dụng ánh sáng mềm, bố cục tối giản và tôn trọng tối đa chất liệu hình ảnh nguyên bản.",
+      "deliverables": [
+        "Portrait Series",
+        "Curated Photo Book",
+        "Color Grading Preset"
+      ],
+      "palette": [
+        "#231F20",
+        "#5E503F",
+        "#C6AC8F",
+        "#EAE0D5",
+        "#FAF9F6"
+      ],
+      "visualType": "editorial",
+      "imageUrl": "",
+      "igLink": "https://instagram.com/callmeiskay",
+      "behanceLink": "https://www.behance.net/callmeiskay",
+      "behanceEmbedId": ""
+    },
+    {
+      "id": "yearbook-project",
+      "title": "Yearbook — Ký ức Thời Thanh Xuân",
+      "subtitle": "Ấn phẩm kỷ yếu học sinh sinh viên với phong cách editorial tinh tế",
+      "category": "Yearbook",
+      "year": "2026",
+      "client": "Homnao.Foto Yearbook Series",
+      "role": "Art Director & Photographer",
+      "tools": [
+        "Editorial Layout",
+        "Portrait Series",
+        "Print Production"
+      ],
+      "summary": "Ghi lại những thước phim tuổi trẻ qua góc nhìn nhiếp ảnh dàn trang tạp chí cao cấp.",
+      "challenge": "Tránh lối mòn của các mẫu kỷ yếu thông thường để tạo ra một ấn phẩm mang giá trị lưu giữ vượt thời gian.",
+      "solution": "Kết hợp giữa nhiếp ảnh chân dung tự nhiên và kỹ thuật dàn trang tối giản, sang trọng.",
+      "deliverables": [
+        "Yearbook Publication",
+        "Photo Archive",
+        "Visual Direction"
+      ],
+      "palette": [
+        "#141413",
+        "#D95326",
+        "#D8CFC4",
+        "#ECEAE4",
+        "#FFFFFF"
+      ],
+      "visualType": "ananas",
+      "imageUrl": "",
+      "igLink": "",
+      "behanceLink": "https://www.behance.net/callmeiskay",
+      "behanceEmbedId": ""
+    },
+    {
+      "id": "event-storytelling",
+      "title": "Event Visual Storytelling",
+      "subtitle": "Ghi lại nhịp điệu và không gian sự kiện qua ống kính nhiếp ảnh",
+      "category": "Event",
+      "year": "2026",
+      "client": "Homnao.Foto Event Coverage",
+      "role": "Lead Event Photographer",
+      "tools": [
+        "Available Light",
+        "Dynamic Framing",
+        "Post-Production"
+      ],
+      "summary": "Tài liệu hóa các sự kiện văn hóa, nghệ thuật và thương hiệu với góc nhìn điện ảnh.",
+      "challenge": "Làm nổi bật bầu không gian và cảm xúc của sự kiện giữa ánh sáng phức tạp.",
+      "solution": "Nắm bắt khoảnh khắc chớp nhoáng với bố cục chặt chẽ và tông màu nhất quán.",
+      "deliverables": [
+        "Event Photo Gallery",
+        "Highlight Reel",
+        "Digital Deliverables"
+      ],
+      "palette": [
+        "#0F1419",
+        "#2B3A4A",
+        "#6C809A",
+        "#D49B72",
+        "#F2EFE9"
+      ],
+      "visualType": "cinema",
+      "imageUrl": "",
+      "igLink": "https://instagram.com/callmeiskay",
+      "behanceLink": "https://www.behance.net/callmeiskay",
+      "behanceEmbedId": ""
+    }
+  ]
+}
