@@ -141,6 +141,18 @@ export default function App() {
       })
       .catch(() => {});
   }, []);
+
+  // Đọc thông tin cá nhân (About Me, ảnh chân dung, email, link...) từ public/content/profile.json.
+  useEffect(() => {
+    fetch('/content/profile.json')
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data) => {
+        if (data && typeof data === 'object') {
+          setProfile((prev) => ({ ...prev, ...data }));
+        }
+      })
+      .catch(() => {});
+  }, []);
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDark, setIsDark] = useState(false);
