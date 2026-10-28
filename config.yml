@@ -56,3 +56,19 @@ collections:
                 default: editorial
               - { label: Link Behance, name: behanceLink, widget: string, required: false }
               - { label: Link Instagram, name: igLink, widget: string, required: false }
+      - name: profile
+        label: Thông tin cá nhân
+        file: public/content/profile.json
+        fields:
+          - { label: Họ và tên, name: name, widget: string }
+          - { label: Đoạn giới thiệu ở đầu trang, name: philosophy, widget: text, required: false }
+          - { label: Tiêu đề mục About, name: aboutHeading, widget: string, required: false }
+          - { label: Ảnh chân dung, name: aboutAvatarUrl, widget: image, required: false }
+          - { label: About - đoạn chính (chữ lớn), name: aboutLead, widget: text, required: false }
+          - { label: About - đoạn chi tiết (chữ nhỏ), name: aboutDetail, widget: text, required: false }
+          - { label: Email liên hệ, name: email, widget: string, required: false }
+          - { label: Dòng trạng thái (mục Contact), name: status, widget: string, required: false }
+          - { label: Tên hiển thị Behance, name: behance, widget: string, required: false }
+          - { label: Link Behance, name: behanceUrl, widget: string, required: false }
+          - { label: Tên hiển thị Instagram, name: instagram, widget: string, required: false }
+          - { label: Link Instagram, name: instagramUrl, widget: string, required: false }
