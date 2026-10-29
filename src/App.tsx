@@ -41,10 +41,15 @@ const INITIAL_PROFILE = {
 // Lấy địa chỉ từ link hoặc từ đoạn mã nhúng <iframe src="...">. Chỉ chấp nhận https.
 const extractBookingUrl = (input) => {
   if (!input) return "";
-  const text = String(input).trim();
-  const m = text.match(/src=["']([^"']+)["']/i);
-  const url = (m ? m[1] : text).replace(/&amp;/g, "&");
-  return /^https:\/\//i.test(url) ? url : "";
+  const text = String(input).trim().replace(/&amp;/g, "&");
+  // 1) Mã "nút bấm" hoặc "nội tuyến" của Google Calendar: lấy địa chỉ trang đặt lịch bên trong
+  const g = text.match(/https:\/\/calendar\.google\.com\/calendar\/(?:u\/\d+\/)?appointments\/[^'"\s<>\\]+/i);
+  if (g) return g[0];
+  // 2) Mã <iframe src="...">
+  const f = text.match(/<iframe[^>]*\ssrc=["']([^"']+)["']/i);
+  if (f && /^https:\/\//i.test(f[1])) return f[1];
+  // 3) Link thường
+  return /^https:\/\/[^\s<>'"]+$/i.test(text) ? text : "";
 };
 
 const INITIAL_PROJECTS = [
