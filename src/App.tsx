@@ -29,7 +29,22 @@ const INITIAL_PROFILE = {
   behanceUrl: "https://www.behance.net/callmeiskay",
   instagram: "@callmeiskay",
   instagramUrl: "https://www.instagram.com/callmeiskay",
-  status: "Available for selected freelance & creative collaborations"
+  status: "Available for selected freelance & creative collaborations",
+  // ĐẶT LỊCH: dán link (hoặc cả đoạn mã nhúng) của trang đặt lịch vào mục "Thông tin cá nhân" trong /admin.
+  // Để trống thì mục Đặt lịch sẽ tự ẩn.
+  bookingUrl: "",
+  bookingHeading: "Đặt lịch",
+  bookingText: "Chọn ngày và giờ phù hợp, lịch hẹn sẽ được xác nhận qua email.",
+  bookingButton: "Đặt lịch ngay"
+};
+
+// Lấy địa chỉ từ link hoặc từ đoạn mã nhúng <iframe src="...">. Chỉ chấp nhận https.
+const extractBookingUrl = (input) => {
+  if (!input) return "";
+  const text = String(input).trim();
+  const m = text.match(/src=["']([^"']+)["']/i);
+  const url = (m ? m[1] : text).replace(/&amp;/g, "&");
+  return /^https:\/\//i.test(url) ? url : "";
 };
 
 const INITIAL_PROJECTS = [
@@ -157,6 +172,7 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDark, setIsDark] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   
   // ADMIN MODE: Mặc định ẩn, chỉ bật khi nhấn vào nút nhỏ ở footer
   const [isAdmin, setIsAdmin] = useState(false);
@@ -460,6 +476,11 @@ export default function App() {
               <a href="#about" className={`${theme.muted} hover:opacity-100 transition-opacity`}>
                 About Me
               </a>
+              {extractBookingUrl(profile.bookingUrl) && (
+                <a href="#booking" className={`${theme.muted} hover:opacity-100 transition-opacity`}>
+                  {profile.bookingHeading || "Đặt lịch"}
+                </a>
+              )}
               <a href="#contact" className={`${theme.muted} hover:opacity-100 transition-opacity`}>
                 Contact
               </a>
@@ -671,6 +692,31 @@ export default function App() {
           </div>
         </section>
 
+        {/* BOOKING: chỉ hiện khi đã dán link đặt lịch trong /admin */}
+        {extractBookingUrl(profile.bookingUrl) && (
+          <section id="booking" className={`py-24 border-t ${theme.border}`}>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+              <div className="md:col-span-8 space-y-4">
+                <h2 className="text-2xl sm:text-3xl font-light tracking-tight">
+                  {profile.bookingHeading || "Đặt lịch"}
+                </h2>
+                <p className={`text-sm sm:text-base ${theme.muted} leading-relaxed max-w-xl`}>
+                  {profile.bookingText}
+                </p>
+              </div>
+              <div className="md:col-span-4 md:text-right">
+                <button
+                  onClick={() => setIsBookingOpen(true)}
+                  className="inline-flex items-center gap-2 pb-1 border-b border-current text-xs font-mono uppercase tracking-widest hover:opacity-60 transition-opacity"
+                >
+                  <span>{profile.bookingButton || "Đặt lịch ngay"}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* CONTACT */}
         <section id="contact" className={`py-28 border-t ${theme.border}`}>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
@@ -764,6 +810,46 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* BOOKING MODAL */}
+      {isBookingOpen && extractBookingUrl(profile.bookingUrl) && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setIsBookingOpen(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`w-full max-w-3xl h-[85vh] ${theme.bg} ${theme.text} border ${theme.border} shadow-2xl flex flex-col`}
+          >
+            <div className={`flex items-center justify-between px-5 py-3 border-b ${theme.border} text-xs font-mono`}>
+              <span className={theme.muted}>{profile.bookingHeading || "Đặt lịch"}</span>
+              <div className="flex items-center gap-4">
+                <a
+                  href={extractBookingUrl(profile.bookingUrl)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`${theme.muted} hover:opacity-100 inline-flex items-center gap-1`}
+                >
+                  <span>Mở trong tab mới</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <button
+                  onClick={() => setIsBookingOpen(false)}
+                  className="p-1 opacity-60 hover:opacity-100 transition-opacity"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={extractBookingUrl(profile.bookingUrl)}
+              title="Đặt lịch"
+              className="w-full flex-1 border-0 bg-white"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      )}
 
       {/* CASE STUDY MODAL */}
       {selectedProject && (
