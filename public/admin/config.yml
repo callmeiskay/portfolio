@@ -2,6 +2,9 @@ backend:
   name: github
   repo: callmeiskay/portfolio
   branch: main
+  # Đăng nhập GitHub qua Cloudflare Pages (hai hàm trong thư mục functions/oauth)
+  base_url: https://callmeiskay.pages.dev
+  auth_endpoint: oauth/auth
 
 # Ảnh upload sẽ được lưu vào thư mục này trong repo
 media_folder: public/images/uploads
