@@ -40,10 +40,9 @@ const INITIAL_PROFILE = {
 
 // TĂNG TỐC ẢNH: ảnh nằm trong thư mục /images/ của site được thu nhỏ tự động bằng Netlify Image CDN
 // (xuất WebP/AVIF nhẹ hơn nhiều). Nếu dịch vụ này không chạy, ảnh tự quay về bản gốc nên không bao giờ bị vỡ.
-const optimizeImage = (url, width) => {
-  if (typeof url !== "string" || !url.startsWith("/images/")) return url;
-  return `/.netlify/images?url=${encodeURIComponent(url)}&w=${width}&q=75`;
-};
+// Cloudflare Pages không có dịch vụ thu nhỏ ảnh miễn phí kiểu này, nên hiện trả về ảnh gốc.
+// (Hãy nén ảnh trước khi upload. Lazy loading vẫn giúp trang nhẹ hơn.)
+const optimizeImage = (url, width) => url;
 const fallbackToOriginal = (e) => {
   const img = e.currentTarget;
   if (img.dataset.fallback === "1") return;
