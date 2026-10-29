@@ -38,6 +38,19 @@ const INITIAL_PROFILE = {
   bookingButton: "Đặt lịch ngay"
 };
 
+// TĂNG TỐC ẢNH: ảnh nằm trong thư mục /images/ của site được thu nhỏ tự động bằng Netlify Image CDN
+// (xuất WebP/AVIF nhẹ hơn nhiều). Nếu dịch vụ này không chạy, ảnh tự quay về bản gốc nên không bao giờ bị vỡ.
+const optimizeImage = (url, width) => {
+  if (typeof url !== "string" || !url.startsWith("/images/")) return url;
+  return `/.netlify/images?url=${encodeURIComponent(url)}&w=${width}&q=75`;
+};
+const fallbackToOriginal = (e) => {
+  const img = e.currentTarget;
+  if (img.dataset.fallback === "1") return;
+  img.dataset.fallback = "1";
+  img.src = img.dataset.original;
+};
+
 // Lấy địa chỉ từ link hoặc từ đoạn mã nhúng <iframe src="...">. Chỉ chấp nhận https.
 const extractBookingUrl = (input) => {
   if (!input) return "";
@@ -355,8 +368,12 @@ export default function App() {
       return (
         <div className={`relative w-full ${aspectClass} ${canvasBg} overflow-hidden flex items-center justify-center`}>
           <img
-            src={project.imageUrl}
+            src={optimizeImage(project.imageUrl, 1200)}
+            data-original={project.imageUrl}
+            onError={fallbackToOriginal}
             alt={project.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover transition-transform duration-700 ease-out"
           />
         </div>
@@ -664,8 +681,12 @@ export default function App() {
               <div className="w-full aspect-[4/5] overflow-hidden flex items-center justify-center relative group">
                 {profile.aboutAvatarUrl ? (
                   <img
-                    src={profile.aboutAvatarUrl}
+                    src={optimizeImage(profile.aboutAvatarUrl, 900)}
+                    data-original={profile.aboutAvatarUrl}
+                    onError={fallbackToOriginal}
                     alt={profile.name}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700"
                   />
                 ) : (
