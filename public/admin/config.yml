@@ -72,3 +72,7 @@ collections:
           - { label: Link Behance, name: behanceUrl, widget: string, required: false }
           - { label: Tên hiển thị Instagram, name: instagram, widget: string, required: false }
           - { label: Link Instagram, name: instagramUrl, widget: string, required: false }
+          - { label: "Đặt lịch - Link hoặc mã nhúng (để trống = ẩn mục Đặt lịch)", name: bookingUrl, widget: text, required: false }
+          - { label: Đặt lịch - Tiêu đề mục, name: bookingHeading, widget: string, required: false, default: "Đặt lịch" }
+          - { label: Đặt lịch - Dòng mô tả, name: bookingText, widget: text, required: false }
+          - { label: Đặt lịch - Chữ trên nút, name: bookingButton, widget: string, required: false, default: "Đặt lịch ngay" }
