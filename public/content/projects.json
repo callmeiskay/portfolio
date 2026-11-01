@@ -126,14 +126,15 @@
       "category": "Yearbook"
     },
     {
-      "year": "2026",
-      "visualType": "editorial",
-      "title": "Photography Couple In Hoi An",
-      "subtitle": "Photography Couple In Hoi An",
-      "category": "Portrait",
       "client": "Chị Ngọc",
+      "behanceLink": "https://www.behance.net/gallery/257783209/Photography-Couple-In-Hoi-An",
+      "imageUrl": "/images/uploads/kay-0084.jpg",
       "role": "Photographer Tourist",
-      "behanceLink": "https://www.behance.net/gallery/257783209/Photography-Couple-In-Hoi-An"
+      "subtitle": "Photography Couple In Hoi An",
+      "title": "Photography Couple In Hoi An",
+      "visualType": "editorial",
+      "year": "2026",
+      "category": "Portrait"
     },
     {
       "client": "Quỳnh Anh- UED- Đà Nẵng",
