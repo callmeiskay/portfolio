@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   ArrowUpRight,
   Copy,
@@ -10,6 +10,7 @@ import {
   Upload,
   Trash2
 } from 'lucide-react';
+import ProjectGallery from './ProjectGallery';
 
 // --- INITIAL DATA ---
 const INITIAL_PROFILE = {
@@ -190,7 +191,26 @@ export default function App() {
   const [isDark, setIsDark] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  
+
+  // Link riêng cho từng dự án: callmeiskay.pages.dev/#project-<id>
+  // Mở trang bằng link này thì dự án tự bật lên, dùng để gửi cho khách xem ảnh.
+  useEffect(() => {
+    const m = window.location.hash.match(/^#project-(.+)$/);
+    if (!m) return;
+    const found = projects.find((p) => p.id === decodeURIComponent(m[1]));
+    if (found) setSelectedProject(found);
+  }, [projects]);
+
+  const hashTouched = useRef(false);
+  useEffect(() => {
+    if (selectedProject) hashTouched.current = true;
+    else if (!hashTouched.current) return; // chưa mở dự án nào thì giữ nguyên hash để effect trên đọc
+    const next = selectedProject ? '#project-' + encodeURIComponent(selectedProject.id) : '';
+    if (window.location.hash !== next) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search + next);
+    }
+  }, [selectedProject]);
+
   // ADMIN MODE: Mặc định ẩn, chỉ bật khi nhấn vào nút nhỏ ở footer
   const [isAdmin, setIsAdmin] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -1099,6 +1119,14 @@ export default function App() {
                   </div>
                 ) : (
                   renderMinimalistArtwork(selectedProject, "aspect-[16/9]")
+                )}
+
+                {selectedProject.driveFolderId && (
+                  <ProjectGallery
+                    key={selectedProject.driveFolderId}
+                    folder={selectedProject.driveFolderId}
+                    isDark={isDark}
+                  />
                 )}
 
                 <div className={`grid grid-cols-2 sm:grid-cols-4 gap-6 py-6 border-y ${theme.border} text-xs`}>

@@ -32,6 +32,7 @@ collections:
                 options: [Portrait, Yearbook, Event, Architectural, "Design & Brand Identity"]
               - { label: Năm, name: year, widget: string, default: "2026" }
               - { label: Ảnh bìa, name: imageUrl, widget: image, required: false }
+              - { label: "Link thư mục Google Drive chứa ảnh dự án (chia sẻ: Bất kỳ ai có đường liên kết). Để trống = không hiện gallery", name: driveFolderId, widget: string, required: false }
               - { label: Khách hàng / Bối cảnh, name: client, widget: string, required: false }
               - { label: Vai trò, name: role, widget: string, required: false }
               - label: Công cụ
