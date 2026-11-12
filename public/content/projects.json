@@ -166,6 +166,16 @@
       "visualType": "editorial",
       "year": "2026",
       "category": "Event"
+    },
+    {
+      "year": "2025",
+      "visualType": "editorial",
+      "title": "Graduation of Khanh Nguyen",
+      "category": "Yearbook",
+      "imageUrl": "/images/uploads/kay-161.jpg",
+      "driveFolderId": "https://drive.google.com/drive/folders/1jUik9K-iRZ_2QTA-U6ZWCHEtMAMo9ABj?usp=drive_link",
+      "client": "Khánh Nguyên",
+      "role": "Photography"
     }
   ]
 }
