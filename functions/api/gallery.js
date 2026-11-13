@@ -66,6 +66,8 @@ export async function onRequestGet({ request, env }) {
         id: f.id,
         name: f.name.replace(/\.[^.]+$/, ''),
         kind: isVideo ? 'video' : 'image',
+        mime: f.mimeType || '',
+        processing: isVideo && !f.videoMediaMetadata, // Google chưa xử lý xong video
         w: meta.width || 0,
         h: meta.height || 0,
         thumb: base ? base + '=w520' : '',

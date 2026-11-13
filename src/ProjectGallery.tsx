@@ -9,7 +9,7 @@ export function extractDriveId(input: string): string {
   return /^[A-Za-z0-9_-]{10,100}$/.test(s) ? s : '';
 }
 
-type Photo = { id: string; name: string; kind?: 'image' | 'video'; w: number; h: number; thumb: string; full: string };
+type Photo = { id: string; name: string; kind?: 'image' | 'video'; mime?: string; processing?: boolean; w: number; h: number; thumb: string; full: string };
 
 // Danh sách ảnh được nhớ trong tab trình duyệt: mở lại dự án là hiện ngay,
 // đồng thời vẫn hỏi lại máy chủ để cập nhật nếu thư mục Drive có thay đổi.
@@ -208,15 +208,37 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
           </button>
 
           {cur.kind === 'video' ? (
-            <div className="w-full max-w-5xl aspect-video bg-black" onClick={(e) => e.stopPropagation()}>
-              <iframe
-                key={cur.id}
-                src={`https://drive.google.com/file/d/${cur.id}/preview`}
-                title={cur.name}
-                className="w-full h-full border-0"
-                allow="autoplay; fullscreen"
-                allowFullScreen
-              />
+            <div className="w-full max-w-5xl flex flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
+              {/* Khung cao gần hết màn hình: trình phát của Drive tự co video vừa khung,
+                  nên video dọc hiện đủ hình, video ngang có viền đen hai bên */}
+              <div className="w-full h-[78vh] bg-black">
+                <iframe
+                  key={cur.id}
+                  src={`https://drive.google.com/file/d/${cur.id}/preview`}
+                  title={cur.name}
+                  className="w-full h-full border-0"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                />
+              </div>
+              <div className="text-xs text-white/70 text-center px-4 space-y-1">
+                {(cur.processing || (cur.mime && cur.mime !== 'video/mp4')) && (
+                  <p>
+                    {cur.processing
+                      ? 'Google có thể đang xử lý video này, thử lại sau vài phút. '
+                      : 'Định dạng video này có thể không phát được trên Drive. '}
+                    Nếu không xem được, xuất lại thành MP4 (H.264).
+                  </p>
+                )}
+                <a
+                  href={`https://drive.google.com/file/d/${cur.id}/view`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline"
+                >
+                  Không phát được? Mở trong Google Drive ↗
+                </a>
+              </div>
             </div>
           ) : (
             <div className="relative max-w-full max-h-[88vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
