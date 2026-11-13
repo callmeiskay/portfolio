@@ -155,7 +155,7 @@ export default function App() {
   // Đọc danh sách dự án từ file public/content/projects.json (file này do trang /admin chỉnh sửa).
   // Nếu không đọc được, trang vẫn dùng dữ liệu mặc định INITIAL_PROJECTS ở trên.
   useEffect(() => {
-    fetch('/content/projects.json')
+    fetch('/content/projects.json', { cache: 'no-cache' })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data) => {
         if (data && Array.isArray(data.projects) && data.projects.length > 0) {
@@ -177,7 +177,7 @@ export default function App() {
 
   // Đọc thông tin cá nhân (About Me, ảnh chân dung, email, link...) từ public/content/profile.json.
   useEffect(() => {
-    fetch('/content/profile.json')
+    fetch('/content/profile.json', { cache: 'no-cache' })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data) => {
         if (data && typeof data === 'object') {

@@ -11,12 +11,44 @@ export function extractDriveId(input: string): string {
 
 type Photo = { id: string; name: string; w: number; h: number; thumb: string; full: string };
 
+// Danh sách ảnh được nhớ trong tab trình duyệt: mở lại dự án là hiện ngay,
+// đồng thời vẫn hỏi lại máy chủ để cập nhật nếu thư mục Drive có thay đổi.
+const KEY = (id: string) => 'gallery:' + id;
+function readCache(id: string): Photo[] | null {
+  try {
+    const raw = sessionStorage.getItem(KEY(id));
+    if (!raw) return null;
+    const { t, files } = JSON.parse(raw);
+    // Link ảnh của Google hết hạn sau vài giờ, nên chỉ dùng bản nhớ trong 30 phút
+    if (Date.now() - t > 30 * 60 * 1000 || !Array.isArray(files)) return null;
+    return files;
+  } catch {
+    return null;
+  }
+}
+function writeCache(id: string, files: Photo[]) {
+  try {
+    sessionStorage.setItem(KEY(id), JSON.stringify({ t: Date.now(), files }));
+  } catch {
+    /* bộ nhớ đầy hoặc bị chặn: bỏ qua */
+  }
+}
+
+function preload(src?: string) {
+  if (!src) return;
+  const img = new Image();
+  img.referrerPolicy = 'no-referrer';
+  img.src = src;
+}
+
 export default function ProjectGallery({ folder, isDark }: { folder: string; isDark: boolean }) {
   const id = extractDriveId(folder);
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [state, setState] = useState<'loading' | 'ok' | 'error'>('loading');
+  const cached = id ? readCache(id) : null;
+  const [photos, setPhotos] = useState<Photo[]>(cached || []);
+  const [state, setState] = useState<'loading' | 'ok' | 'error'>(cached ? 'ok' : 'loading');
   const [error, setError] = useState('');
   const [open, setOpen] = useState(-1);
+  const [fullReady, setFullReady] = useState(false);
 
   useEffect(() => {
     if (!id) {
@@ -25,7 +57,8 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
       return;
     }
     let dead = false;
-    setState('loading');
+    const hasCache = !!readCache(id);
+    if (!hasCache) setState('loading');
     setOpen(-1);
     fetch('/api/gallery?folder=' + encodeURIComponent(id))
       .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
@@ -33,10 +66,12 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
         if (dead) return;
         if (!ok) throw new Error(d.error || 'Không tải được ảnh.');
         setPhotos(d.files || []);
+        writeCache(id, d.files || []);
         setState('ok');
       })
       .catch((e) => {
         if (dead) return;
+        if (hasCache) return; // đã có bản nhớ để hiển thị, bỏ qua lỗi mạng thoáng qua
         setError(e.message || 'Không tải được ảnh.');
         setState('error');
       });
@@ -49,6 +84,16 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
     (d: number) => setOpen((i) => (photos.length ? (i + d + photos.length) % photos.length : -1)),
     [photos.length]
   );
+
+  // Khi mở ảnh lớn: hiện ngay bản nhỏ (đã tải sẵn) rồi thay bằng bản lớn khi tải xong,
+  // và tải trước ảnh kế tiếp để bấm chuyển ảnh không phải chờ.
+  useEffect(() => {
+    if (open < 0) return;
+    setFullReady(false);
+    const n = photos.length;
+    preload(photos[(open + 1) % n]?.full);
+    preload(photos[(open - 1 + n) % n]?.full);
+  }, [open, photos]);
 
   useEffect(() => {
     if (open < 0) return;
@@ -66,6 +111,7 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
 
   const muted = isDark ? 'text-neutral-400' : 'text-neutral-500';
   const border = isDark ? 'border-white/10' : 'border-black/10';
+  const cur = open >= 0 ? photos[open] : null;
 
   return (
     <section className="space-y-4" aria-label="Ảnh của dự án">
@@ -82,9 +128,7 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
         </div>
       )}
 
-      {state === 'error' && (
-        <p className={`text-sm border ${border} p-4 ${muted}`}>{error}</p>
-      )}
+      {state === 'error' && <p className={`text-sm border ${border} p-4 ${muted}`}>{error}</p>}
 
       {state === 'ok' && photos.length === 0 && (
         <p className={`text-sm border ${border} p-4 ${muted}`}>Thư mục này chưa có ảnh.</p>
@@ -97,24 +141,28 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
               key={p.id}
               type="button"
               onClick={() => setOpen(i)}
-              className="block w-full mb-2 overflow-hidden group focus-visible:outline focus-visible:outline-2"
+              className={`block w-full mb-2 overflow-hidden group focus-visible:outline focus-visible:outline-2 ${isDark ? 'bg-white/5' : 'bg-black/5'}`}
+              style={p.w && p.h ? { aspectRatio: `${p.w} / ${p.h}` } : undefined}
               aria-label={'Xem lớn ' + p.name}
             >
               <img
                 src={p.thumb}
                 alt={p.name}
-                loading="lazy"
+                // 6 ảnh đầu tải ngay, các ảnh còn lại tải khi cuộn tới
+                loading={i < 6 ? 'eager' : 'lazy'}
+                fetchPriority={i < 3 ? 'high' : 'auto'}
+                decoding="async"
                 width={p.w || undefined}
                 height={p.h || undefined}
                 referrerPolicy="no-referrer"
-                className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.02]"
+                className="w-full h-full object-cover block transition-transform duration-500 group-hover:scale-[1.02]"
               />
             </button>
           ))}
         </div>
       )}
 
-      {open >= 0 && photos[open] && (
+      {cur && (
         <div
           className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4"
           role="dialog"
@@ -136,31 +184,47 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
               e.stopPropagation();
               step(-1);
             }}
-            className="absolute left-2 sm:left-6 text-white/80 hover:text-white p-3"
+            className="absolute left-2 sm:left-6 text-white/80 hover:text-white p-3 z-10"
             aria-label="Ảnh trước"
           >
             <ArrowRight size={24} className="rotate-180" />
           </button>
-          <img
-            src={photos[open].full}
-            alt={photos[open].name}
-            referrerPolicy="no-referrer"
-            onClick={(e) => e.stopPropagation()}
-            className="max-w-full max-h-[88vh] object-contain"
-          />
+
+          <div className="relative max-w-full max-h-[88vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            {/* Bản nhỏ đã có sẵn trong bộ nhớ nên hiện ngay, bản lớn phủ lên khi tải xong */}
+            <img
+              src={cur.thumb}
+              alt=""
+              aria-hidden="true"
+              referrerPolicy="no-referrer"
+              className="max-w-full max-h-[88vh] object-contain"
+              style={{ filter: fullReady ? 'none' : 'blur(1px)' }}
+            />
+            <img
+              key={cur.id}
+              src={cur.full}
+              alt={cur.name}
+              referrerPolicy="no-referrer"
+              decoding="async"
+              onLoad={() => setFullReady(true)}
+              className="absolute inset-0 w-full h-full object-contain transition-opacity duration-200"
+              style={{ opacity: fullReady ? 1 : 0 }}
+            />
+          </div>
+
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               step(1);
             }}
-            className="absolute right-2 sm:right-6 text-white/80 hover:text-white p-3"
+            className="absolute right-2 sm:right-6 text-white/80 hover:text-white p-3 z-10"
             aria-label="Ảnh sau"
           >
             <ArrowRight size={24} />
           </button>
           <div className="absolute bottom-4 left-0 right-0 text-center font-mono text-xs text-white/60">
-            {photos[open].name} · {open + 1}/{photos.length}
+            {cur.name} · {open + 1}/{photos.length}
           </div>
         </div>
       )}

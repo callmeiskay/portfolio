@@ -64,7 +64,7 @@ export async function onRequestGet({ request, env }) {
         name: f.name.replace(/\.[^.]+$/, ''),
         w: f.imageMediaMetadata?.width || 0,
         h: f.imageMediaMetadata?.height || 0,
-        thumb: base + '=w640',
+        thumb: base + '=w520',
         full: base + '=w2000'
       });
     }
