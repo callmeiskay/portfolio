@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { X, ArrowRight } from 'lucide-react';
+import { X, ArrowRight, Play } from 'lucide-react';
 
 // Chấp nhận cả link thư mục Drive lẫn mã ID trần.
 export function extractDriveId(input: string): string {
@@ -9,7 +9,7 @@ export function extractDriveId(input: string): string {
   return /^[A-Za-z0-9_-]{10,100}$/.test(s) ? s : '';
 }
 
-type Photo = { id: string; name: string; w: number; h: number; thumb: string; full: string };
+type Photo = { id: string; name: string; kind?: 'image' | 'video'; w: number; h: number; thumb: string; full: string };
 
 // Danh sách ảnh được nhớ trong tab trình duyệt: mở lại dự án là hiện ngay,
 // đồng thời vẫn hỏi lại máy chủ để cập nhật nếu thư mục Drive có thay đổi.
@@ -91,8 +91,10 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
     if (open < 0) return;
     setFullReady(false);
     const n = photos.length;
-    preload(photos[(open + 1) % n]?.full);
-    preload(photos[(open - 1 + n) % n]?.full);
+    const nextImg = photos[(open + 1) % n];
+    const prevImg = photos[(open - 1 + n) % n];
+    if (nextImg?.kind !== 'video') preload(nextImg?.full);
+    if (prevImg?.kind !== 'video') preload(prevImg?.full);
   }, [open, photos]);
 
   useEffect(() => {
@@ -141,22 +143,37 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
               key={p.id}
               type="button"
               onClick={() => setOpen(i)}
-              className={`block w-full mb-2 overflow-hidden group focus-visible:outline focus-visible:outline-2 ${isDark ? 'bg-white/5' : 'bg-black/5'}`}
-              style={p.w && p.h ? { aspectRatio: `${p.w} / ${p.h}` } : undefined}
-              aria-label={'Xem lớn ' + p.name}
+              className={`relative block w-full mb-2 overflow-hidden group focus-visible:outline focus-visible:outline-2 ${isDark ? 'bg-white/5' : 'bg-black/5'}`}
+              style={
+                p.w && p.h
+                  ? { aspectRatio: `${p.w} / ${p.h}` }
+                  : p.kind === 'video'
+                    ? { aspectRatio: '16 / 9' }
+                    : undefined
+              }
+              aria-label={(p.kind === 'video' ? 'Phát video ' : 'Xem lớn ') + p.name}
             >
-              <img
-                src={p.thumb}
-                alt={p.name}
-                // 6 ảnh đầu tải ngay, các ảnh còn lại tải khi cuộn tới
-                loading={i < 6 ? 'eager' : 'lazy'}
-                fetchPriority={i < 3 ? 'high' : 'auto'}
-                decoding="async"
-                width={p.w || undefined}
-                height={p.h || undefined}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover block transition-transform duration-500 group-hover:scale-[1.02]"
-              />
+              {p.thumb && (
+                <img
+                  src={p.thumb}
+                  alt={p.name}
+                  // 6 ảnh đầu tải ngay, các ảnh còn lại tải khi cuộn tới
+                  loading={i < 6 ? 'eager' : 'lazy'}
+                  fetchPriority={i < 3 ? 'high' : 'auto'}
+                  decoding="async"
+                  width={p.w || undefined}
+                  height={p.h || undefined}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover block transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              )}
+              {p.kind === 'video' && (
+                <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="w-12 h-12 rounded-full bg-black/60 text-white flex items-center justify-center">
+                    <Play size={20} fill="currentColor" />
+                  </span>
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -190,27 +207,40 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
             <ArrowRight size={24} className="rotate-180" />
           </button>
 
-          <div className="relative max-w-full max-h-[88vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
-            {/* Bản nhỏ đã có sẵn trong bộ nhớ nên hiện ngay, bản lớn phủ lên khi tải xong */}
-            <img
-              src={cur.thumb}
-              alt=""
-              aria-hidden="true"
-              referrerPolicy="no-referrer"
-              className="max-w-full max-h-[88vh] object-contain"
-              style={{ filter: fullReady ? 'none' : 'blur(1px)' }}
-            />
-            <img
-              key={cur.id}
-              src={cur.full}
-              alt={cur.name}
-              referrerPolicy="no-referrer"
-              decoding="async"
-              onLoad={() => setFullReady(true)}
-              className="absolute inset-0 w-full h-full object-contain transition-opacity duration-200"
-              style={{ opacity: fullReady ? 1 : 0 }}
-            />
-          </div>
+          {cur.kind === 'video' ? (
+            <div className="w-full max-w-5xl aspect-video bg-black" onClick={(e) => e.stopPropagation()}>
+              <iframe
+                key={cur.id}
+                src={`https://drive.google.com/file/d/${cur.id}/preview`}
+                title={cur.name}
+                className="w-full h-full border-0"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+              />
+            </div>
+          ) : (
+            <div className="relative max-w-full max-h-[88vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+              {/* Bản nhỏ đã có sẵn trong bộ nhớ nên hiện ngay, bản lớn phủ lên khi tải xong */}
+              <img
+                src={cur.thumb}
+                alt=""
+                aria-hidden="true"
+                referrerPolicy="no-referrer"
+                className="max-w-full max-h-[88vh] object-contain"
+                style={{ filter: fullReady ? 'none' : 'blur(1px)' }}
+              />
+              <img
+                key={cur.id}
+                src={cur.full}
+                alt={cur.name}
+                referrerPolicy="no-referrer"
+                decoding="async"
+                onLoad={() => setFullReady(true)}
+                className="absolute inset-0 w-full h-full object-contain transition-opacity duration-200"
+                style={{ opacity: fullReady ? 1 : 0 }}
+              />
+            </div>
+          )}
 
           <button
             type="button"

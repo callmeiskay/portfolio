@@ -36,8 +36,8 @@ export async function onRequestGet({ request, env }) {
 
   for (let i = 0; i < MAX_PAGES; i++) {
     const u = new URL('https://www.googleapis.com/drive/v3/files');
-    u.searchParams.set('q', `'${folder}' in parents and mimeType contains 'image/' and trashed = false`);
-    u.searchParams.set('fields', 'nextPageToken,files(id,name,thumbnailLink,imageMediaMetadata(width,height))');
+    u.searchParams.set('q', `'${folder}' in parents and (mimeType contains 'image/' or mimeType contains 'video/') and trashed = false`);
+    u.searchParams.set('fields', 'nextPageToken,files(id,name,mimeType,thumbnailLink,imageMediaMetadata(width,height),videoMediaMetadata(width,height))');
     u.searchParams.set('orderBy', 'name_natural');
     u.searchParams.set('pageSize', '1000');
     u.searchParams.set('key', env.DRIVE_API_KEY);
@@ -56,16 +56,20 @@ export async function onRequestGet({ request, env }) {
     }
     const data = await res.json();
     for (const f of data.files || []) {
-      if (!f.thumbnailLink) continue; // ảnh chưa có bản xem trước thì bỏ qua
+      const isVideo = (f.mimeType || '').startsWith('video/');
+      if (!isVideo && !f.thumbnailLink) continue; // ảnh chưa có bản xem trước thì bỏ qua
       // thumbnailLink kết thúc bằng "=s220"; đổi thành cạnh dài mong muốn
-      const base = f.thumbnailLink.replace(/=s\d+$/, '');
+      // Video mới up lên có thể chưa có ảnh bìa (Google còn đang xử lý): vẫn hiện, ảnh bìa để trống
+      const base = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+$/, '') : '';
+      const meta = f.imageMediaMetadata || f.videoMediaMetadata || {};
       files.push({
         id: f.id,
         name: f.name.replace(/\.[^.]+$/, ''),
-        w: f.imageMediaMetadata?.width || 0,
-        h: f.imageMediaMetadata?.height || 0,
-        thumb: base + '=w520',
-        full: base + '=w2000'
+        kind: isVideo ? 'video' : 'image',
+        w: meta.width || 0,
+        h: meta.height || 0,
+        thumb: base ? base + '=w520' : '',
+        full: base ? base + '=w2000' : ''
       });
     }
     pageToken = data.nextPageToken || '';
