@@ -8,6 +8,63 @@
   </head>
   <body>
     <!-- Trang quản trị Decap CMS. Địa chỉ: https://TEN-SITE.netlify.app/admin/ -->
+    <!-- Tự đổi tên ảnh khi tải lên: bỏ dấu, thêm mã duy nhất ở cuối tên để không bao giờ đè ảnh cũ. -->
+    <script>
+      (function () {
+        var made = {};
+        function uniqueName(name) {
+          var dot = name.lastIndexOf('.');
+          var base = dot > 0 ? name.slice(0, dot) : name;
+          var ext = dot > 0 ? name.slice(dot + 1) : '';
+          base = base.normalize('NFD').replace(/[̀-ͯ]/g, '')
+            .replace(/đ/g, 'd').replace(/Đ/g, 'd')
+            .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'anh';
+          ext = ext.toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (ext === 'jpeg') ext = 'jpg';
+          var code = Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
+          var out = base.slice(0, 60) + '-' + code + (ext ? '.' + ext : '');
+          made[out] = true;
+          return out;
+        }
+        function renameList(files) {
+          var dt = new DataTransfer();
+          var changed = false;
+          Array.prototype.forEach.call(files, function (f) {
+            if (/^image\//.test(f.type) && !made[f.name]) {
+              dt.items.add(new File([f], uniqueName(f.name), { type: f.type, lastModified: f.lastModified }));
+              changed = true;
+            } else {
+              dt.items.add(f);
+            }
+          });
+          return changed ? dt : null;
+        }
+
+        // Chọn ảnh bằng nút Upload
+        document.addEventListener('change', function (e) {
+          var el = e.target;
+          if (!el || el.tagName !== 'INPUT' || el.type !== 'file' || !el.files || !el.files.length) return;
+          try {
+            var dt = renameList(el.files);
+            if (dt) el.files = dt.files;
+          } catch (err) { /* giữ nguyên tên gốc nếu trình duyệt không hỗ trợ */ }
+        }, true);
+
+        // Kéo thả ảnh vào cửa sổ Images
+        document.addEventListener('drop', function (e) {
+          if (e.__renamed || !e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+          try {
+            var dt = renameList(e.dataTransfer.files);
+            if (!dt) return;
+            var ev = new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt });
+            ev.__renamed = true;
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.target.dispatchEvent(ev);
+          } catch (err) { /* lỗi thì để thao tác kéo thả chạy như cũ */ }
+        }, true);
+      })();
+    </script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </body>
 </html>
