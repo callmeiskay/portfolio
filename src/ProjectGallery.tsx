@@ -49,6 +49,7 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
   const [error, setError] = useState('');
   const [open, setOpen] = useState(-1);
   const [fullReady, setFullReady] = useState(false);
+  const [nativeFailed, setNativeFailed] = useState(false);
 
   useEffect(() => {
     if (!id) {
@@ -90,6 +91,7 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
   useEffect(() => {
     if (open < 0) return;
     setFullReady(false);
+    setNativeFailed(false);
     const n = photos.length;
     const nextImg = photos[(open + 1) % n];
     const prevImg = photos[(open - 1 + n) % n];
@@ -119,7 +121,7 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
     <section className="space-y-4" aria-label="Ảnh của dự án">
       <div className={`font-mono text-xs uppercase flex justify-between ${muted}`}>
         <span>Gallery</span>
-        {state === 'ok' && <span>{photos.length} ảnh</span>}
+        {state === 'ok' && <span>{photos.length} {photos.some((p) => p.kind === 'video') ? 'ảnh & video' : 'ảnh'}</span>}
       </div>
 
       {state === 'loading' && (
@@ -209,35 +211,57 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
 
           {cur.kind === 'video' ? (
             <div className="w-full max-w-5xl flex flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
-              {/* Khung cao gần hết màn hình: trình phát của Drive tự co video vừa khung,
-                  nên video dọc hiện đủ hình, video ngang có viền đen hai bên */}
-              <div className="w-full h-[78vh] bg-black">
-                <iframe
+              {nativeFailed ? (
+                // Trình phát nhúng của Drive (dự phòng). Khung cao để video dọc hiện đủ hình.
+                <div className="w-full h-[78vh] bg-black">
+                  <iframe
+                    key={cur.id}
+                    src={`https://drive.google.com/file/d/${cur.id}/preview`}
+                    title={cur.name}
+                    className="w-full h-full border-0"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                // Phát thẳng file gốc: video dọc hay ngang đều hiện đủ khung, chạy tốt trên iPhone
+                <video
                   key={cur.id}
-                  src={`https://drive.google.com/file/d/${cur.id}/preview`}
-                  title={cur.name}
-                  className="w-full h-full border-0"
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
+                  src={`/api/video?id=${cur.id}`}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  onError={() => setNativeFailed(true)}
+                  className="w-full max-h-[78vh] bg-black object-contain"
                 />
-              </div>
+              )}
               <div className="text-xs text-white/70 text-center px-4 space-y-1">
                 {(cur.processing || (cur.mime && cur.mime !== 'video/mp4')) && (
                   <p>
                     {cur.processing
                       ? 'Google có thể đang xử lý video này, thử lại sau vài phút. '
-                      : 'Định dạng video này có thể không phát được trên Drive. '}
+                      : 'Định dạng video này có thể không phát được. '}
                     Nếu không xem được, xuất lại thành MP4 (H.264).
                   </p>
                 )}
-                <a
-                  href={`https://drive.google.com/file/d/${cur.id}/view`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline"
-                >
-                  Không phát được? Mở trong Google Drive ↗
-                </a>
+                <p>
+                  <button
+                    type="button"
+                    onClick={() => setNativeFailed((v) => !v)}
+                    className="underline"
+                  >
+                    {nativeFailed ? 'Dùng trình phát gốc' : 'Hình đen hoặc lỗi? Dùng trình phát Drive'}
+                  </button>
+                  {' · '}
+                  <a
+                    href={`https://drive.google.com/file/d/${cur.id}/view`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline"
+                  >
+                    Mở trong Google Drive ↗
+                  </a>
+                </p>
               </div>
             </div>
           ) : (
