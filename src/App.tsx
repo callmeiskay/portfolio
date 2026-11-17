@@ -1142,6 +1142,8 @@ export default function App() {
                     key={selectedProject.driveFolderId}
                     folder={selectedProject.driveFolderId}
                     isDark={isDark}
+                    title={selectedProject.title}
+                    summary={selectedProject.summary}
                   />
                 )}
 

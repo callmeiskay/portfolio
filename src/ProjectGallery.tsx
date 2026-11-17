@@ -41,7 +41,17 @@ function preload(src?: string) {
   img.src = src;
 }
 
-export default function ProjectGallery({ folder, isDark }: { folder: string; isDark: boolean }) {
+export default function ProjectGallery({
+  folder,
+  isDark,
+  title,
+  summary
+}: {
+  folder: string;
+  isDark: boolean;
+  title?: string;
+  summary?: string;
+}) {
   const id = extractDriveId(folder);
   const cached = id ? readCache(id) : null;
   const [photos, setPhotos] = useState<Photo[]>(cached || []);
@@ -50,6 +60,18 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
   const [open, setOpen] = useState(-1);
   const [fullReady, setFullReady] = useState(false);
   const [nativeFailed, setNativeFailed] = useState(false);
+  // Vị trí ảnh nhỏ vừa bấm, để ảnh lớn phóng dần ra từ đúng chỗ đó
+  const [zoomFrom, setZoomFrom] = useState({ x: 0, y: 0, s: 0.3 });
+
+  const openAt = (i: number, e: React.MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setZoomFrom({
+      x: Math.round(r.left + r.width / 2 - window.innerWidth / 2),
+      y: Math.round(r.top + r.height / 2 - window.innerHeight / 2),
+      s: Math.max(0.15, Math.min(0.6, r.width / window.innerWidth))
+    });
+    setOpen(i);
+  };
 
   useEffect(() => {
     if (!id) {
@@ -144,7 +166,7 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
             <button
               key={p.id}
               type="button"
-              onClick={() => setOpen(i)}
+              onClick={(e) => openAt(i, e)}
               className={`relative block w-full mb-2 overflow-hidden group focus-visible:outline focus-visible:outline-2 ${isDark ? 'bg-white/5' : 'bg-black/5'}`}
               style={
                 p.w && p.h
@@ -166,8 +188,17 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
                   width={p.w || undefined}
                   height={p.h || undefined}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover block transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.07] group-active:scale-[1.07]"
                 />
+              )}
+              {(title || summary) && (
+                <span
+                  className="absolute inset-x-0 bottom-0 px-2.5 pb-2.5 pt-10 text-left text-white pointer-events-none opacity-0 translate-y-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-active:opacity-100 group-active:translate-y-0"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0))' }}
+                >
+                  {title && <span className="block font-mono text-[10px] uppercase tracking-wider opacity-80 truncate">{title}</span>}
+                  {summary && <span className="block text-[11px] leading-snug mt-0.5 line-clamp-2">{summary}</span>}
+                </span>
               )}
               {p.kind === 'video' && (
                 <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -183,7 +214,7 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
 
       {cur && (
         <div
-          className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4"
+          className="modal-backdrop fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
           aria-label="Xem ảnh lớn"
@@ -210,7 +241,11 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
           </button>
 
           {cur.kind === 'video' ? (
-            <div className="w-full max-w-5xl flex flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="lightbox-zoom w-full max-w-5xl flex flex-col items-center gap-3"
+              style={{ '--zx': zoomFrom.x + 'px', '--zy': zoomFrom.y + 'px', '--zs': zoomFrom.s } as React.CSSProperties}
+              onClick={(e) => e.stopPropagation()}
+            >
               {nativeFailed ? (
                 // Trình phát nhúng của Drive (dự phòng). Khung cao để video dọc hiện đủ hình.
                 <div className="w-full h-[78vh] bg-black">
@@ -265,7 +300,11 @@ export default function ProjectGallery({ folder, isDark }: { folder: string; isD
               </div>
             </div>
           ) : (
-            <div className="relative max-w-full max-h-[88vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="lightbox-zoom relative max-w-full max-h-[88vh] flex items-center justify-center"
+              style={{ '--zx': zoomFrom.x + 'px', '--zy': zoomFrom.y + 'px', '--zs': zoomFrom.s } as React.CSSProperties}
+              onClick={(e) => e.stopPropagation()}
+            >
               {/* Bản nhỏ đã có sẵn trong bộ nhớ nên hiện ngay, bản lớn phủ lên khi tải xong */}
               <img
                 src={cur.thumb}
