@@ -659,9 +659,9 @@ export default function App() {
               <article
                 key={project.id}
                 onClick={() => setSelectedProject(project)}
-                className="group cursor-pointer space-y-5"
+                className="group card-bounce cursor-pointer space-y-5"
               >
-                <div className="overflow-hidden">
+                <div className="card-bounce-media overflow-hidden">
                   <div className="group-hover:scale-[1.015] transition-transform duration-700 ease-out">
                     {renderMinimalistArtwork(project, "aspect-[16/10]")}
                   </div>

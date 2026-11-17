@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+/* Hiệu ứng nảy lên khi rê chuột vào hộp dự án */
+.card-bounce {
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+.card-bounce:hover {
+  transform: translateY(-14px) scale(1.03);
+}
+.card-bounce:active {
+  transform: translateY(-6px) scale(0.99);
+  transition-duration: 0.15s;
+}
+.card-bounce .card-bounce-media {
+  transition: box-shadow 0.45s ease;
+}
+.card-bounce:hover .card-bounce-media {
+  box-shadow: 0 24px 40px -12px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-bounce,
+  .card-bounce:hover,
+  .card-bounce:active {
+    transform: none;
+    transition: none;
+  }
+}
