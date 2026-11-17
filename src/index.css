@@ -43,3 +43,35 @@
     transition: none;
   }
 }
+
+/* Cửa sổ dự án: phóng to ra từ vị trí hộp vừa bấm */
+@keyframes modal-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-zoom-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--zx, 0px), var(--zy, 0px)) scale(0.35);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+.modal-backdrop {
+  animation: modal-backdrop-in 0.3s ease-out both;
+}
+.modal-zoom {
+  animation: modal-zoom-in 0.5s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal-zoom {
+    animation: none;
+  }
+}

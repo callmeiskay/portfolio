@@ -191,6 +191,21 @@ export default function App() {
   const [isDark, setIsDark] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  // Vị trí hộp vừa bấm (so với tâm màn hình) để cửa sổ dự án phóng to ra từ đúng chỗ đó
+  const [zoomFrom, setZoomFrom] = useState({ x: 0, y: 0 });
+
+  const openProject = (project, e) => {
+    if (e && e.currentTarget) {
+      const r = e.currentTarget.getBoundingClientRect();
+      setZoomFrom({
+        x: Math.round(r.left + r.width / 2 - window.innerWidth / 2),
+        y: Math.round(r.top + r.height / 2 - window.innerHeight / 2)
+      });
+    } else {
+      setZoomFrom({ x: 0, y: 0 });
+    }
+    setSelectedProject(project);
+  };
 
   // Link riêng cho từng dự án: callmeiskay.pages.dev/#project-<id>
   // Mở trang bằng link này thì dự án tự bật lên, dùng để gửi cho khách xem ảnh.
@@ -658,7 +673,7 @@ export default function App() {
             {filteredProjects.map((project) => (
               <article
                 key={project.id}
-                onClick={() => setSelectedProject(project)}
+                onClick={(e) => openProject(project, e)}
                 className="group card-bounce cursor-pointer space-y-5"
               >
                 <div className="card-bounce-media overflow-hidden">
@@ -899,7 +914,7 @@ export default function App() {
       {/* CASE STUDY MODAL */}
       {selectedProject && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-8 overflow-y-auto"
+          className="modal-backdrop fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-8 overflow-y-auto"
           onClick={() => {
             setSelectedProject(null);
             setIsEditingProj(false);
@@ -907,7 +922,8 @@ export default function App() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`w-full max-w-3xl ${theme.bg} ${theme.text} border ${theme.border} p-6 sm:p-12 my-auto max-h-[90vh] overflow-y-auto space-y-10 shadow-2xl`}
+            style={{ '--zx': zoomFrom.x + 'px', '--zy': zoomFrom.y + 'px' } as React.CSSProperties}
+            className={`modal-zoom w-full max-w-3xl ${theme.bg} ${theme.text} border ${theme.border} p-6 sm:p-12 my-auto max-h-[90vh] overflow-y-auto space-y-10 shadow-2xl`}
           >
             <div className="flex items-center justify-between border-b border-current/10 pb-5">
               <div className={`font-mono text-xs ${theme.muted}`}>
