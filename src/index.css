@@ -1,22 +1,38 @@
 @import "tailwindcss";
 
-/* Hiệu ứng nảy lên khi rê chuột vào hộp dự án */
+/* Hiệu ứng nảy lên cho hộp dự án */
 .card-bounce {
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform;
-}
-.card-bounce:hover {
-  transform: translateY(-14px) scale(1.03);
-}
-.card-bounce:active {
-  transform: translateY(-6px) scale(0.99);
-  transition-duration: 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 .card-bounce .card-bounce-media {
   transition: box-shadow 0.45s ease;
 }
-.card-bounce:hover .card-bounce-media {
-  box-shadow: 0 24px 40px -12px rgba(0, 0, 0, 0.35);
+
+/* Máy tính (có chuột): nảy lên khi rê chuột vào */
+@media (hover: hover) and (pointer: fine) {
+  .card-bounce:hover {
+    transform: translateY(-14px) scale(1.03);
+  }
+  .card-bounce:hover .card-bounce-media {
+    box-shadow: 0 24px 40px -12px rgba(0, 0, 0, 0.35);
+  }
+  .card-bounce:active {
+    transform: translateY(-6px) scale(0.99);
+    transition-duration: 0.15s;
+  }
+}
+
+/* Điện thoại / máy tính bảng (cảm ứng): nảy lên khi nhấn giữ, thả tay thì bật về */
+@media (hover: none), (pointer: coarse) {
+  .card-bounce:active {
+    transform: translateY(-8px) scale(1.03);
+    transition-duration: 0.2s;
+  }
+  .card-bounce:active .card-bounce-media {
+    box-shadow: 0 18px 30px -10px rgba(0, 0, 0, 0.35);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
