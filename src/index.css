@@ -67,7 +67,7 @@
 }
 .modal-zoom {
   /* "backwards" (không dùng "both"): xong hiệu ứng thì bỏ transform, tránh làm lệch ảnh lớn bên trong */
-  animation: modal-zoom-in 0.5s cubic-bezier(0.22, 1.2, 0.36, 1) backwards;
+  animation: modal-zoom-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
 /* Ảnh lớn trong Gallery: phóng dần ra từ vị trí ảnh nhỏ vừa bấm, mượt và không nảy */

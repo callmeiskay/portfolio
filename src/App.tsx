@@ -676,9 +676,21 @@ export default function App() {
                 onClick={(e) => openProject(project, e)}
                 className="group card-bounce cursor-pointer space-y-5"
               >
-                <div className="card-bounce-media overflow-hidden">
-                  <div className="group-hover:scale-[1.015] transition-transform duration-700 ease-out">
+                <div className="card-bounce-media relative overflow-hidden">
+                  <div className="group-hover:scale-[1.06] group-active:scale-[1.06] transition-transform duration-700 ease-out">
                     {renderMinimalistArtwork(project, "aspect-[16/10]")}
+                  </div>
+                  {/* Tóm tắt dự án: hiện khi rê chuột (máy tính) hoặc nhấn giữ (điện thoại) */}
+                  <div
+                    className="absolute inset-x-0 bottom-0 px-4 sm:px-5 pb-4 pt-16 text-white pointer-events-none opacity-0 translate-y-3 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-active:opacity-100 group-active:translate-y-0"
+                    style={{ background: "linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0))" }}
+                  >
+                    <div className="font-mono text-[10px] uppercase tracking-widest opacity-70">
+                      {project.category} — {project.year}
+                    </div>
+                    <p className="text-xs sm:text-[13px] leading-snug mt-1 line-clamp-3">
+                      {project.summary || project.subtitle}
+                    </p>
                   </div>
                 </div>
 
